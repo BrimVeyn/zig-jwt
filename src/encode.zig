@@ -101,8 +101,9 @@ pub fn encode(
     key: EncodingKey,
 ) ![]const u8 {
     comptime {
-        if (@typeInfo(@TypeOf(claims)) != .Struct) {
-            @compileError("expected claims to be a struct but was a " ++ @typeName(@TypeOf(claims)));
+        switch (@typeInfo(@TypeOf(claims))) {
+            .@"struct" => {},
+            else => @compileError("expected claims to be a struct but was a " ++ @typeName(@TypeOf(claims))),
         }
     }
 
